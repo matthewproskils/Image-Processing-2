@@ -1,0 +1,42 @@
+from pydrive.drive import GoogleDrive 
+from pydrive.auth import GoogleAuth 
+from pathlib import Path
+import os
+path = Path().absolute()
+
+# For using listdir() 
+import os 
+   
+  
+# Below code does the authentication 
+# part of the code 
+gauth = GoogleAuth() 
+  
+# Creates local webserver and auto 
+# handles authentication. 
+gauth.LocalWebserverAuth()        
+drive = GoogleDrive(gauth) 
+   
+parent_folder_id = '1oBZvDrszfXM02FEDuAKiFjbgYTG-9h6I'
+# replace the value of this variable 
+# with the absolute path of the directory 
+path = os.path.join(path, "processed")
+   
+# iterating thought all the files/folder 
+# of the desired directory 
+for x in os.listdir(path): 
+    # print(x)
+    f = drive.CreateFile({
+        'title': x,
+        'parents': [{"id": parent_folder_id}]
+    })
+    f.SetContentFile(os.path.join(path, x)) 
+    f.Upload() 
+  
+    # Due to a known bug in pydrive if we  
+    # don't empty the variable used to 
+    # upload the files to Google Drive the 
+    # file stays open in memory and causes a 
+    # memory leak, therefore preventing its  
+    # deletion 
+    f = None
