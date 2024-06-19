@@ -74,12 +74,12 @@ csv = ','.join(os.listdir(path)) + "\n" + ','.join(np.char.mod('%f', listOfDataS
 with open("processed/Output.csv", "w") as text_file:
     text_file.write(csv)
 
-f = drive.CreateFile({'title': "Output.csv", 'parents': [parent_folder_id]})
+f = drive.CreateFile({'title': "Output.csv", 'parents': [{'id': parent_folder_id}]})
 f.SetContentFile(os.path.join(path, "Output.csv"))
 
 
 for x in os.listdir(path): 
     print(x)
-    f = drive.CreateFile({'title': x, 'parents': [parent_folder_id]})
+    f = drive.CreateFile({'title': x, 'parents': [{'id': parent_folder_id}]})
     f.SetContentFile(os.path.join(path, x)) 
     f.Upload()
