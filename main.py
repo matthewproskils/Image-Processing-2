@@ -1,6 +1,7 @@
 from pydrive.drive import GoogleDrive 
 from pydrive.auth import GoogleAuth 
 from pathlib import Path
+import numpy as np
 import os
 import cv2 as cv
 path = Path().absolute()
@@ -51,9 +52,12 @@ def processImage(p):
     print(os.path.join(path, 'processed', p))
     # Save or display the yellow channel image
     cv.imwrite(os.path.join(path, 'processed', p), yellow_channel)
+    width, height, channels = image.shape
+    return np.sum(yellow_mask > 0)/(width*height)
 
+listOfDataShit = []
 for filename in os.listdir("downloaded"):
-    processImage(filename)
+    listOfDataShit.append(processImage(filename))
     print("Processed ", filename)
 """
 UPLOADS SHIT
@@ -66,6 +70,14 @@ path = os.path.join(path, "processed")
 # iterating thought all the files/folder 
 # of the desired directory 
 print(path)
+csv = ','.join(os.listdir(path)) + "\n" + ','.join(np.char.mod('%f', listOfDataShit))
+with open("processed/Output.csv", "w") as text_file:
+    text_file.write(csv)
+
+f = drive.CreateFile({'title': "Output.csv", 'parents': [parent_folder_id]})
+f.SetContentFile(os.path.join(path, "Output.csv"))
+
+
 for x in os.listdir(path): 
     print(x)
     f = drive.CreateFile({'title': x, 'parents': [parent_folder_id]})
