@@ -12,7 +12,7 @@ gauth = GoogleAuth()
 gauth.LocalWebserverAuth()
 drive = GoogleDrive(gauth)
 """
-DOWNLOADS SHIT
+DOWNLOADS STUFF
 """
 # Define the ID of the folder from which you want to download files
 folder_id = '14-uekYXnSR2GOyVDEzPl866OFSf0IO2e'  # Replace with the actual folder ID
@@ -33,7 +33,7 @@ for file in file_list:
 
 print("Downloaded all files from the folder.")
 """
-PROCESSES SHIT
+PROCESSES STUFF
 """
 def processImage(p):
     image = cv.imread("downloaded/" + p)
@@ -60,7 +60,7 @@ for filename in os.listdir("downloaded"):
     listOfDataShit.append(processImage(filename))
     print("Processed ", filename)
 """
-UPLOADS SHIT
+UPLOADS STUFF
 """
 parent_folder_id = '1oBZvDrszfXM02FEDuAKiFjbgYTG-9h6I'
 # replace the value of this variable 
